@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"github.com/chromedp/chromedp"
 	"log"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -19,6 +21,7 @@ func CheckErr(err error) {
 }
 
 func GenerateChromeContext(age int64) context.Context {
+	// TODO make this function start the devTools protocol automatically
 	allocatorContext, _ =
 		chromedp.NewRemoteAllocator(context.Background(),
 			*devtoolsWsURL)
@@ -31,3 +34,11 @@ func GenerateChromeContext(age int64) context.Context {
 
 	return ctxt
 }
+
+func ParseStringToInt(quantity string) (int, error) {
+	temp := strings.Split(quantity, "$")
+	chars := strings.Split(temp[1], ",")
+
+	return strconv.Atoi(strings.Join(chars, ""))
+}
+
