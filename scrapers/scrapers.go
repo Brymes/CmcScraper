@@ -76,3 +76,25 @@ func FilterCoins(minMarketCap, maxMarketCap, minSupply, maxSupply int) chromedp.
 		chromedp.Click(FilterButtons.ShowResults, chromedp.ByQuery),
 	}
 }
+
+func CustomizeListView() chromedp.Tasks {
+	return chromedp.Tasks{
+		chromedp.Click(CustomListView.CustomizeButton, chromedp.ByQuery),
+
+		chromedp.Sleep(3 * time.Second),
+
+		chromedp.Click(CustomListView.D7Btn, chromedp.BySearch),
+		chromedp.Click(CustomListView.H24Btn, chromedp.BySearch),
+		chromedp.Click(CustomListView.Last7days, chromedp.BySearch),
+
+		chromedp.Sleep(time.Second),
+
+		chromedp.Click(CustomListView.ATHBtn, chromedp.BySearch),
+		chromedp.Click(CustomListView.ATLBtn, chromedp.BySearch),
+
+		chromedp.Sleep(time.Second),
+
+		chromedp.Click(CustomListView.ApplyButton, chromedp.ByQuery),
+		chromedp.Click(CustomListView.CloseBtn, chromedp.ByQuery),
+	}
+}
