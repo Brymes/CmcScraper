@@ -98,3 +98,14 @@ func CustomizeListView() chromedp.Tasks {
 		chromedp.Click(CustomListView.CloseBtn, chromedp.ByQuery),
 	}
 }
+
+func FindNumIterations(iterStr *string) chromedp.Tasks {
+	return chromedp.Tasks{
+		chromedp.Text("/html/body/div[1]/div/div[1]/div[2]/div/div[1]/div[7]/p", iterStr, chromedp.BySearch),
+	}
+}
+func LoadNExtPage() chromedp.Tasks {
+	return chromedp.Tasks{
+		chromedp.Click("/html/body/div[1]/div/div[1]/div[2]/div/div[1]/div[7]/div[1]/div/ul/li[10]", chromedp.BySearch),
+	}
+}
