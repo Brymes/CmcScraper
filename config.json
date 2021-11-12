@@ -1,0 +1,6 @@
+{
+  "minMarketCap": 1,
+  "maxMarketCap": 500000000,
+  "minSupply": 1,
+  "maxSupply": 300000000
+}
