@@ -1,6 +1,7 @@
 package scrapers
 
 import (
+	u "CmcScraper/utils"
 	"fmt"
 	"github.com/chromedp/chromedp"
 	"log"
@@ -107,5 +108,20 @@ func FindNumIterations(iterStr *string) chromedp.Tasks {
 func LoadNExtPage() chromedp.Tasks {
 	return chromedp.Tasks{
 		chromedp.Click("/html/body/div[1]/div/div[1]/div[2]/div/div[1]/div[7]/div[1]/div/ul/li[10]", chromedp.BySearch),
+	}
+}
+
+func ScrapeCoinList(iter int, coinStruct *u.RawCoinStruct) chromedp.Tasks {
+
+	basexpath := fmt.Sprintf(BaseXpath, iter)
+
+	return chromedp.Tasks{
+		chromedp.Text(fmt.Sprintf("%v%v", basexpath, CoinDetailsPaths.Name), &coinStruct.Name, chromedp.BySearch),
+		chromedp.Text(fmt.Sprintf("%v%v", basexpath, CoinDetailsPaths.Price), &coinStruct.Price, chromedp.BySearch),
+		chromedp.Text(fmt.Sprintf("%v%v", basexpath, CoinDetailsPaths.MarketCap), &coinStruct.MarketCap, chromedp.BySearch),
+		chromedp.Text(fmt.Sprintf("%v%v", basexpath, CoinDetailsPaths.Volume), &coinStruct.Volume, chromedp.BySearch),
+		chromedp.Text(fmt.Sprintf("%v%v", basexpath, CoinDetailsPaths.Supply), &coinStruct.Supply, chromedp.BySearch),
+		chromedp.Text(fmt.Sprintf("%v%v", basexpath, CoinDetailsPaths.ATH), &coinStruct.AllTimeHigh, chromedp.BySearch),
+		chromedp.Text(fmt.Sprintf("%v%v", basexpath, CoinDetailsPaths.ATL), &coinStruct.AllTimeLow, chromedp.BySearch),
 	}
 }
