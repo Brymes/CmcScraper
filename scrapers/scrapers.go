@@ -1,13 +1,15 @@
 package scrapers
 
 import (
+	"fmt"
 	"github.com/chromedp/chromedp"
 	"log"
+	"time"
 )
 
 // Mini Functions that return tasks to perform typically one thing
 // All Functions here can be merged into one single task, But for error management we separate tasks into different functions
-func ScrapeCoinName(name *string) chromedp.Tasks {
+/*func ScrapeCoinName(name *string) chromedp.Tasks {
 	log.Println("Scraping for Coin Name")
 	return chromedp.Tasks{
 		chromedp.Text("#__next > div > div > div.sc-57oli2-0.comDeo.cmc-body-wrapper > div > div.sc-16r8icm-0.jKrmxw.container > div > div.sc-16r8icm-0.sc-19zk94m-1.gRSJaB > div.sc-16r8icm-0.iutcov > div.sc-16r8icm-0.sc-19zk94m-5.gshXSv > div > div > div.sc-16r8icm-0.sc-1etv19d-1.fyZQQz > div.sc-16r8icm-0.kjciSH > p.q7nmo0-0.smLap.converter-item-name", name, chromedp.ByQuery),
@@ -47,5 +49,30 @@ func ScrapeATL(ATL *string) chromedp.Tasks {
 	log.Println("Scraping for Coin All Time Low")
 	return chromedp.Tasks{
 		chromedp.Text("#__next > div > div > div.sc-57oli2-0.comDeo.cmc-body-wrapper > div > div.sc-16r8icm-0.jKrmxw.container > div > div.sc-16r8icm-0.sc-19zk94m-1.gRSJaB > div.sc-16r8icm-0.iutcov > div.sc-16r8icm-0.hgKnTV > div > div.sc-16r8icm-0.kjciSH.show > div:nth-child(2) > table > tbody > tr:nth-child(6) > td > span", ATL, chromedp.ByQuery),
+	}
+}
+*/
+func FilterCoins(minMarketCap, maxMarketCap, minSupply, maxSupply int) chromedp.Tasks {
+	log.Println("Entering Filtering ")
+	return chromedp.Tasks{
+		chromedp.Click(FilterButtons.FilterButton, chromedp.ByQuery),
+		chromedp.Click(FilterButtons.AddFilter, chromedp.ByQuery),
+
+		chromedp.Click(FilterButtons.MarketCap, chromedp.ByQuery),
+		// chromedp.Click(FilterButtons.MinMarketCap, chromedp.ByQuery),
+		chromedp.SendKeys(FilterButtons.MinMarketCap, fmt.Sprintf("%v", minMarketCap), chromedp.ByQuery),
+		// chromedp.Click(FilterButtons.MaxMarketCap, chromedp.ByQuery),
+		chromedp.SendKeys(FilterButtons.MaxMarketCap, fmt.Sprintf("%v", maxMarketCap), chromedp.ByQuery),
+
+		chromedp.Click(FilterButtons.ApplyFilter, chromedp.ByQuery),
+
+		chromedp.Click(FilterButtons.CirculatingSupply, chromedp.ByQuery),
+		// chromedp.Click(FilterButtons.MinCirculatingSupply, chromedp.ByQuery),
+		chromedp.SendKeys(FilterButtons.MinCirculatingSupply, fmt.Sprintf("%v", minSupply), chromedp.ByQuery),
+		// chromedp.Click(FilterButtons.MaxCirculatingSupply, chromedp.ByQuery),
+		chromedp.SendKeys(FilterButtons.MaxCirculatingSupply, fmt.Sprintf("%v", maxSupply), chromedp.ByQuery),
+
+		chromedp.Click(FilterButtons.ApplyFilter, chromedp.ByQuery),
+		chromedp.Click(FilterButtons.ShowResults, chromedp.ByQuery),
 	}
 }
