@@ -35,7 +35,7 @@ func CreateDb() {
 	}
 
 	// Migrate the schema
-	migrateError := db.AutoMigrate(Config{})
+	migrateError := db.AutoMigrate(ParsedCoin{})
 	if migrateError != nil {
 		fmt.Println("Error while migrating Database")
 		log.Fatal(migrateError)
@@ -44,7 +44,7 @@ func CreateDb() {
 	return
 }
 
-func InsertData(resp *Config) {
+func InsertData(resp *ParsedCoin) {
 	db, err := gorm.Open(sqlite.Open("Coins.db"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
