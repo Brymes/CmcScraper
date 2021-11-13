@@ -9,6 +9,18 @@ import (
 	"strings"
 )
 
+func ScrapeData(numIters int, ctx context.Context) {
+	for i := 0; i <= numIters; i++ {
+		// Loop through each coin on the page
+		for j := 0; j <= 100; j++ {
+			var rawData u.RawCoinStruct
+			var coinData u.ParsedCoin
+
+			_ = chromedp.Run(ctx, scrapers.ScrapeCoin(j, &rawData))
+		}
+		scrapers.LoadNExtPage()
+	}
+}
 func PreliminaryTasks(ctx context.Context) (int, error) {
 	url := "https://coinmarketcap.com/"
 	// Load Config from file
