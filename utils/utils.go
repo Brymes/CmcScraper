@@ -14,7 +14,6 @@ import (
 )
 
 var devtoolsWsURL = flag.String("devtoolsWSurl", "http://127.0.0.1:9222/", "DevTools Websocket URL")
-var allocatorContext, ctxt context.Context
 
 func CheckErr(err error) {
 	if err != nil {
@@ -24,6 +23,8 @@ func CheckErr(err error) {
 
 func GenerateChromeContext(age int64) context.Context {
 	// TODO make this function start the devTools protocol automatically
+	var allocatorContext, ctxt context.Context
+
 	allocatorContext, _ =
 		chromedp.NewRemoteAllocator(context.Background(),
 			*devtoolsWsURL)
@@ -42,6 +43,19 @@ func ParseStringToInt(quantity string) (int, error) {
 	chars := strings.Split(temp[1], ",")
 
 	return strconv.Atoi(strings.Join(chars, ""))
+}
+
+func FindNumIters(numCoins int) int {
+	// Divide by 100 and get number of iterations
+	numIters := numCoins/100
+
+	// Check remainder, if not 0 then add 1
+	rem := numCoins % 100
+	if rem != 0 {
+		numIters += 1
+	}
+
+	return numIters
 }
 
 func ReadConfigFromJSON(file string) Config {
@@ -72,4 +86,3 @@ func ReadConfigFromJSON(file string) Config {
 
 	return data
 }
-
