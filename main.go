@@ -59,3 +59,16 @@ func PreliminaryTasks(ctx context.Context) (int, error) {
 
 	return strconv.Atoi(chars[1])
 }
+
+
+func main() {
+	// Generate Chrome context for 245 seconds
+	ctx := u.GenerateChromeContext(245)
+
+	numCoins, err := PreliminaryTasks(ctx)
+	u.CheckErr(err)
+
+	numIters := u.FindNumIters(numCoins)
+
+	ScrapeData(numIters, ctx)
+}
