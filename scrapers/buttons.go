@@ -44,7 +44,7 @@ type coinDets struct {
 	Name, Price, MarketCap, Volume, Supply, ATH, ATL string
 }
 
-var CoinDetailsPaths = &coinDets {
+var CoinDetailsPaths = &coinDets{
 	"/td[3]/div/a/div/div/div/p",
 	"/td[4]/div/a",
 	"/td[5]/p/span[2]",

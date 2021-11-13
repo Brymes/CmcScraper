@@ -53,7 +53,8 @@ func ScrapeATL(ATL *string) chromedp.Tasks {
 	}
 }
 */
-func FilterCoins(minMarketCap, maxMarketCap, minSupply, maxSupply int) chromedp.Tasks {
+
+func FilterCoins(params u.Config) chromedp.Tasks {
 	log.Println("Entering Filtering ")
 	return chromedp.Tasks{
 		chromedp.Click(FilterButtons.FilterButton, chromedp.ByQuery),
@@ -61,17 +62,17 @@ func FilterCoins(minMarketCap, maxMarketCap, minSupply, maxSupply int) chromedp.
 
 		chromedp.Click(FilterButtons.MarketCap, chromedp.ByQuery),
 		// chromedp.Click(FilterButtons.MinMarketCap, chromedp.ByQuery),
-		chromedp.SendKeys(FilterButtons.MinMarketCap, fmt.Sprintf("%v", minMarketCap), chromedp.ByQuery),
+		chromedp.SendKeys(FilterButtons.MinMarketCap, fmt.Sprintf("%v", params.MinMarketCap), chromedp.ByQuery),
 		// chromedp.Click(FilterButtons.MaxMarketCap, chromedp.ByQuery),
-		chromedp.SendKeys(FilterButtons.MaxMarketCap, fmt.Sprintf("%v", maxMarketCap), chromedp.ByQuery),
+		chromedp.SendKeys(FilterButtons.MaxMarketCap, fmt.Sprintf("%v", params.MaxMarketCap), chromedp.ByQuery),
 
 		chromedp.Click(FilterButtons.ApplyFilter, chromedp.ByQuery),
 
 		chromedp.Click(FilterButtons.CirculatingSupply, chromedp.ByQuery),
 		// chromedp.Click(FilterButtons.MinCirculatingSupply, chromedp.ByQuery),
-		chromedp.SendKeys(FilterButtons.MinCirculatingSupply, fmt.Sprintf("%v", minSupply), chromedp.ByQuery),
+		chromedp.SendKeys(FilterButtons.MinCirculatingSupply, fmt.Sprintf("%v", params.MinSupply), chromedp.ByQuery),
 		// chromedp.Click(FilterButtons.MaxCirculatingSupply, chromedp.ByQuery),
-		chromedp.SendKeys(FilterButtons.MaxCirculatingSupply, fmt.Sprintf("%v", maxSupply), chromedp.ByQuery),
+		chromedp.SendKeys(FilterButtons.MaxCirculatingSupply, fmt.Sprintf("%v", params.MaxSupply), chromedp.ByQuery),
 
 		chromedp.Click(FilterButtons.ApplyFilter, chromedp.ByQuery),
 		chromedp.Click(FilterButtons.ShowResults, chromedp.ByQuery),
@@ -106,12 +107,13 @@ func FindNumIterations(iterStr *string) chromedp.Tasks {
 	}
 }
 func LoadNExtPage() chromedp.Tasks {
+	// TODO what if number of pages is not up to 10?? check li[10]
 	return chromedp.Tasks{
 		chromedp.Click("/html/body/div[1]/div/div[1]/div[2]/div/div[1]/div[7]/div[1]/div/ul/li[10]", chromedp.BySearch),
 	}
 }
 
-func ScrapeCoinList(iter int, coinStruct *u.RawCoinStruct) chromedp.Tasks {
+func ScrapeCoin(iter int, coinStruct *u.RawCoinStruct) chromedp.Tasks {
 
 	basexpath := fmt.Sprintf(BaseXpath, iter)
 
