@@ -33,21 +33,34 @@ func GenerateChromeContext(age int64) context.Context {
 
 	// Parse context age to Duration as Seconds
 	dur, _ := time.ParseDuration(fmt.Sprintf("%vs", age))
-	ctxt, _ = context.WithTimeout(ctxt, time.Duration(dur))
+	ctxt, cancel := context.WithTimeout(ctxt, time.Duration(dur))
+
+	defer cancel()
 
 	return ctxt
 }
 
-func ParseStringToInt(quantity string) (int, error) {
+func ParseStringToInt(quantity string) int {
 	temp := strings.Split(quantity, "$")
 	chars := strings.Split(temp[1], ",")
 
-	return strconv.Atoi(strings.Join(chars, ""))
-}
+	val, err := strconv.Atoi(strings.Join(chars, ""))
+	CheckErr(err)
 
+	return val
+}
+func ParseCointoInt(quantity string) int {
+	temp := strings.Split(quantity, " ")
+	chars := strings.Split(temp[0], ",")
+
+	val, err := strconv.Atoi(strings.Join(chars, ""))
+	CheckErr(err)
+
+	return val
+}
 func FindNumIters(numCoins int) int {
 	// Divide by 100 and get number of iterations
-	numIters := numCoins/100
+	numIters := numCoins / 100
 
 	// Check remainder, if not 0 then add 1
 	rem := numCoins % 100
