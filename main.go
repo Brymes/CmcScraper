@@ -17,8 +17,21 @@ func ScrapeData(numIters int, ctx context.Context) {
 			var coinData u.ParsedCoin
 
 			_ = chromedp.Run(ctx, scrapers.ScrapeCoin(j, &rawData))
+			// Split Dollar symbol and extract int
+			coinData.MarketCap = u.ParseStringToInt(rawData.MarketCap)
+			coinData.Price = u.ParseStringToInt(rawData.Price)
+			coinData.Volume = u.ParseStringToInt(rawData.Volume)
+			coinData.AllTimeLow = u.ParseStringToInt(rawData.AllTimeLow)
+			coinData.AllTimeHigh = u.ParseStringToInt(rawData.AllTimeHigh)
+
+			// Split Currency name and extract int
+			coinData.Supply = u.ParseCointoInt(rawData.Supply)
+
+			coinData.Name = rawData.Name
+
+			u.InsertData(&coinData)
 		}
-		scrapers.LoadNExtPage()
+		scrapers.LoadNextPage()
 	}
 }
 func PreliminaryTasks(ctx context.Context) (int, error) {
