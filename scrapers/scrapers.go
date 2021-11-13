@@ -106,7 +106,7 @@ func FindNumIterations(iterStr *string) chromedp.Tasks {
 		chromedp.Text("/html/body/div[1]/div/div[1]/div[2]/div/div[1]/div[7]/p", iterStr, chromedp.BySearch),
 	}
 }
-func LoadNExtPage() chromedp.Tasks {
+func LoadNextPage() chromedp.Tasks {
 	// TODO what if number of pages is not up to 10?? check li[10]
 	return chromedp.Tasks{
 		chromedp.Click("/html/body/div[1]/div/div[1]/div[2]/div/div[1]/div[7]/div[1]/div/ul/li[10]", chromedp.BySearch),
