@@ -13,23 +13,23 @@ import (
 func CreateDb() {
 	// Deleting the sqlite file because they are intended to be temporary
 	//TODO
-	err := os.Remove("sqlite-database.db")
+	err := os.Remove("Coins.db")
 	if err != nil {
 		fmt.Println("Error whilst deleting database")
 		//panic(err)
 	}
 
-	log.Println("Creating sqlite-database.db...")
-	file, err := os.Create("sqlite-database.db") // Create SQLite file
+	log.Println("Creating Coins.db...")
+	file, err := os.Create("Coins.db") // Create SQLite file
 	if err != nil {
 		panic(err)
 	}
 
 	file.Close()
 
-	log.Println("sqlite-database.db created")
+	log.Println("Coins.db created")
 
-	db, err := gorm.Open(sqlite.Open("sqlite-database.db"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("Coins.db"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -40,6 +40,22 @@ func CreateDb() {
 		fmt.Println("Error while migrating Database")
 		log.Fatal(migrateError)
 		return
+	}
+	return
+}
+
+func InsertData(resp *Config) {
+	db, err := gorm.Open(sqlite.Open("Coins.db"), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
+	}
+	result := db.Create(&resp)
+
+	//FIXME check if this works oo
+	if result.Error != nil {
+		log.Println(&resp)
+		log.Println(&result.Error)
+		panic(result.Error)
 	}
 	return
 }
